@@ -27,6 +27,9 @@ class Translation:
         self.in_vect = self.load_vectorizer(in_vect_path)
         self.out_vect = self.load_vectorizer(out_vect_path)
 
+        self.sos = "thisissos"
+        self.eos = "thisiseos"
+
     def load_transformer(self, tf_classes, path):
         return keras.models.load_model(path, custom_objects=tf_classes)
 
@@ -41,7 +44,7 @@ class Translation:
         output_lookup = dict(zip(range(len(output_vocab)), output_vocab))
 
         tokenized_input = self.in_vect([input_sentence])
-        output = "[sos]"
+        output = self.sos
 
         for i in range(max_seq_len):
             tokenized_target = self.out_vect([output])[:, :-1]
@@ -51,7 +54,10 @@ class Translation:
             sampled_token = output_lookup[sampled_token_index]
             output += " " + sampled_token
 
-            if sampled_token == "[eos]":
+            if sampled_token == self.eos:
                 break
+
+        output = output.replace(f"{self.sos} ", "")
+        output = output.replace(f" {self.eos}", "")
 
         return output

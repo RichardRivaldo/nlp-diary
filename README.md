@@ -12,7 +12,8 @@ To run the server, just execute `run.sh` in the root directory. Default port use
 
 ### Translation
 
--   `POST {"input_sentence": "<this_is_your_input>"} /translate` -> Translate your input into English.
+-   `POST {"input_sentence": "<this_is_your_input>"} /detection` -> Detect your input into English or Indonesian.
+-   `POST {"input_sentence": "<this_is_your_input>"} /translation` -> Translate your input into English.
 
 ## References
 
@@ -23,3 +24,9 @@ To run the server, just execute `run.sh` in the root directory. Default port use
 -   [Neural Machine Translation with TensorFlow](https://blog.paperspace.com/neural-machine-translation-with-tensorflow/)
 -   [Neural machine translation with a Transformer and Keras](https://www.tensorflow.org/text/tutorials/transformer)
 -   [NLP FROM SCRATCH: TRANSLATION WITH A SEQUENCE TO SEQUENCE NETWORK AND ATTENTION](https://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html)
+
+### Language Detection
+
+-   Deep Learning with Python, Second Edition by François Chollet.
+-   [How to Train BERT](https://towardsdatascience.com/how-to-train-bert-aaad00533168)
+-   [Fine-tuning a BERT model](https://www.tensorflow.org/tfmodels/nlp/fine_tune_bert)

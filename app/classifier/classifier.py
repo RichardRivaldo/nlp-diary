@@ -33,7 +33,9 @@ def pred_sentence_emotions(model, text, topn=5):
 
 class ClassifierAPI:
     def __init__(self) -> None:
-        self.classifier = EmotionClassifier()
+        n_labels = len(mapping)
+        n_train_steps = int(43410 / 32 * 10)
+        self.classifier = EmotionClassifier(n_train_steps, n_labels)
 
     def on_post(self, req, resp):
         try:

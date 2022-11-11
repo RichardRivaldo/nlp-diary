@@ -6,3 +6,4 @@ from app.translation.translation import TranslationAPI
 app = falcon.App()
 app.add_route("/translation", TranslationAPI())
 app.add_route("/detection", DetectionAPI())
+app.add_route("/classifier", DetectionAPI())

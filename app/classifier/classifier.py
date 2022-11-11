@@ -1,6 +1,6 @@
 import json
 import falcon
-from app.classifier.models.classifier import Classifer
+from app.classifier.models.classifier import EmotionClassifier
 from app.classifier.models.classes import mapping
 
 
@@ -33,7 +33,7 @@ def pred_sentence_emotions(model, text, topn=5):
 
 class ClassifierAPI:
     def __init__(self) -> None:
-        self.classifier = Classifer()
+        self.classifier = EmotionClassifier()
 
     def on_post(self, req, resp):
         try:

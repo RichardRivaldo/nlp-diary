@@ -1,3 +1,4 @@
+import tez
 from tez import TezConfig
 
 class EmotionClassifier(tez.Model):

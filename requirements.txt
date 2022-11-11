@@ -5,3 +5,4 @@ tensorflow==2.10.0
 transformers==4.23.1
 tez==0.7.2
 pytorch-lightning==1.8.1
+scikit-learn==0.22

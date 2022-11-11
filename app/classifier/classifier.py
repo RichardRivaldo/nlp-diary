@@ -36,11 +36,12 @@ class ClassifierAPI:
         n_labels = len(mapping)
         n_train_steps = int(43410 / 32 * 10)
         self.classifier = EmotionClassifier(n_train_steps, n_labels)
+        self.classifier = self.classifier.load("/home/masters/nlp-diary/model.bin")
 
     def on_post(self, req, resp):
         try:
             input_sentence = req.media.get("input_sentence")
-            res = pred_sentence_emotions(self.classifier.model, input_sentence)
+            res = pred_sentence_emotions(self.classifier, input_sentence)
 
             resp.text = json.dumps(
                 {"status": 200, "data": {"emotion": res}}, ensure_ascii=False

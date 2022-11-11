@@ -4,7 +4,7 @@ from tez import TezConfig
 class EmotionClassifier(tez.Model):
     def __init__(self, num_train_steps, num_classes):
         super().__init__()
-        self.model = self.load("model.bin")
+        self.model = self.load("/home/masters/nlp-diary/model.bin")
         self.bert = transformers.SqueezeBertModel.from_pretrained("squeezebert/squeezebert-uncased")
         self.bert_drop = nn.Dropout(0.3)
         self.out = nn.Linear(768, num_classes)

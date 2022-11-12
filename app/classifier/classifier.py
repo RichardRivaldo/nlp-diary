@@ -1,8 +1,13 @@
 import json
 import falcon
+import torch
+import transformers
 from app.classifier.models.classifier import EmotionClassifier
 from app.classifier.models.classes import mapping
 
+tokenizer = transformers.SqueezeBertTokenizer.from_pretrained(
+            "squeezebert/squeezebert-uncased", do_lower_case=True
+        )
 
 def pred_sentence_emotions(model, text, topn=5):
     max_len = 35

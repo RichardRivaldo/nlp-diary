@@ -35,7 +35,7 @@ def pred_sentence_emotions(model, text, topn=5):
 
     dictionary = dict()
     for i, p in zip(indices[:topn], probas[:topn]):
-        dictionary[mapping[i]] = str(int(p))
+        dictionary[mapping[i]] = str(int(p * 100))
         print(mapping[i]," --> ", p)
     return dictionary
 

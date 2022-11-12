@@ -36,7 +36,7 @@ class ClassifierAPI:
         n_labels = len(mapping)
         n_train_steps = int(43410 / 32 * 10)
         self.classifier = EmotionClassifier(n_train_steps, n_labels)
-        self.classifier = self.classifier.load("/home/masters/nlp-diary/model.bin")
+        self.classifier = self.classifier.load("/home/masters/nlp-diary/model.bin", device="cpu")
 
     def on_post(self, req, resp):
         try:

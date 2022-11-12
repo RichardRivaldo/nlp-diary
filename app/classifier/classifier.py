@@ -35,7 +35,7 @@ def pred_sentence_emotions(model, text, topn=5):
 
     dictionary = dict()
     for i, p in zip(indices[:topn], probas[:topn]):
-        dictionary[mapping[i]] = p
+        dictionary[mapping[i]] = str(p)
         print(mapping[i]," --> ", p)
     return dictionary
 
@@ -49,13 +49,7 @@ class ClassifierAPI:
     def on_post(self, req, resp):
         try:
             input_sentence = req.media.get("input_sentence")
-            res = pred_sentence_emotions(self.model, input_sentence)
-
-            resp.text = json.dumps(
-                {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
-            )
-            resp.status = falcon.HTTP_200
-        except Exception as e:
+            res = pred_sentence_emotions(sstr
             print(e)
             resp.text = json.dumps(
                 {"status": 400, "data": {"error": "Invalid Request"}},

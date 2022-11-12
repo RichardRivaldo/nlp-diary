@@ -20,10 +20,10 @@ def pred_sentence_emotions(model, text, topn=5):
                                        padding="max_length",
                                        truncation=True)
         ids = inputs["input_ids"]
-        ids = torch.LongTensor(ids).cuda().unsqueeze(0)
+        ids = torch.LongTensor(ids).cpu().unsqueeze(0)
 
         attention_mask = inputs["attention_mask"]
-        attention_mask = torch.LongTensor(attention_mask).cuda().unsqueeze(0)
+        attention_mask = torch.LongTensor(attention_mask).cpu().unsqueeze(0)
 
         output = model.forward(ids, attention_mask)[0]
         output = torch.sigmoid(output)
@@ -40,13 +40,13 @@ class ClassifierAPI:
     def __init__(self) -> None:
         n_labels = len(mapping)
         n_train_steps = int(43410 / 32 * 10)
-        self.classifier = EmotionClassifier(n_train_steps, n_labels)
-        self.classifier = self.classifier.load("/home/masters/nlp-diary/model.bin", device="cpu")
+        self.model = EmotionClassifier(n_train_steps, n_labels)
+        self.model.load("/home/masters/nlp-diary/model.bin", device="cpu")
 
     def on_post(self, req, resp):
         try:
             input_sentence = req.media.get("input_sentence")
-            res = pred_sentence_emotions(self.classifier, input_sentence)
+            res = pred_sentence_emotions(self.model, input_sentence)
 
             resp.text = json.dumps(
                 {"status": 200, "data": {"emotion": res}}, ensure_ascii=False

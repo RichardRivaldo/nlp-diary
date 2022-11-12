@@ -33,8 +33,11 @@ def pred_sentence_emotions(model, text, topn=5):
     probas = probas.cpu().numpy()[0][::-1]
     indices = indices.cpu().numpy()[0][::-1]
 
+    dictionary = dict()
     for i, p in zip(indices[:topn], probas[:topn]):
+        dictionary[mapping[i]] = p
         print(mapping[i]," --> ", p)
+    return dictionary
 
 class ClassifierAPI:
     def __init__(self) -> None:

@@ -55,25 +55,10 @@ class ClassifierAPI:
             input_sentence = req.media.get("input_sentence")
             res = pred_sentence_emotions(self.model, input_sentence)
 
-            detected = self.detection.detect(input_sentence)
-            print(detected)
-            if detected == "en":
-                res = pred_sentence_emotions(self.model, input_sentence)
-
-                resp.text = json.dumps(
-                    {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
-                )
-                resp.status = falcon.HTTP_200
-            else:
-                translated = self.translation.translate(input_sentence)
-                print(detected, translated)
-                res = pred_sentence_emotions(self.model, translated)
-
-                resp.text = json.dumps(
-                    {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
-                )
-                resp.status = falcon.HTTP_200
-                
+            resp.text = json.dumps(
+                {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
+            )
+            resp.status = falcon.HTTP_200
         except Exception as e:
             print(e)
             resp.text = json.dumps(

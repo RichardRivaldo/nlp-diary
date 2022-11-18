@@ -46,6 +46,8 @@ class ClassifierAPI:
         n_labels = len(mapping)
         n_train_steps = int(43410 / 32 * 10)
         self.model = EmotionClassifier(n_train_steps, n_labels)
+        self.detection = DetectionAPI()
+        self.translation = TranslationAPI()
         self.model.load("/home/masters/nlp-diary/model.bin", device="cpu")
 
     def on_post(self, req, resp):
@@ -53,10 +55,25 @@ class ClassifierAPI:
             input_sentence = req.media.get("input_sentence")
             res = pred_sentence_emotions(self.model, input_sentence)
 
-            resp.text = json.dumps(
-                {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
-            )
-            resp.status = falcon.HTTP_200
+            detected = self.detection.detect(input_sentence)
+            print(detected)
+            if detected == "en":
+                res = pred_sentence_emotions(self.model, input_sentence)
+
+                resp.text = json.dumps(
+                    {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
+                )
+                resp.status = falcon.HTTP_200
+            else:
+                translated = self.translation.translate(input_sentence)
+                print(detected, translated)
+                res = pred_sentence_emotions(self.model, translated)
+
+                resp.text = json.dumps(
+                    {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
+                )
+                resp.status = falcon.HTTP_200
+                
         except Exception as e:
             print(e)
             resp.text = json.dumps(

@@ -46,7 +46,7 @@ class ClassifierAPI:
         n_labels = len(mapping)
         n_train_steps = int(43410 / 32 * 10)
         self.model = EmotionClassifier(n_train_steps, n_labels)
-        self.detection = Detection()
+        # self.detection = Detection()
         self.translation = Translation()
         self.model.load("/home/masters/nlp-diary/model.bin", device="cpu")
 

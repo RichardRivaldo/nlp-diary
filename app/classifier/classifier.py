@@ -54,6 +54,7 @@ class ClassifierAPI:
 
             detect_api = DetectionAPI()
             detected = detect_api.detection.detect(input_sentence)
+            print(detected)
             if detected == "en":
                 res = pred_sentence_emotions(self.model, input_sentence)
 
@@ -64,6 +65,7 @@ class ClassifierAPI:
             else:
                 translation_api = TranslationAPI()
                 translated = translation_api.translation.translate(input_sentence)
+                print(detected, translated)
                 res = pred_sentence_emotions(self.model, translated)
 
                 resp.text = json.dumps(

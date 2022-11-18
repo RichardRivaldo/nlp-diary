@@ -3,6 +3,8 @@ import falcon
 import torch
 import transformers
 from app.classifier.models.classifier import EmotionClassifier
+from app.detection.detection import DetectionAPI
+from app.translation.translation import TranslationAPI
 from app.classifier.models.classes import mapping
 
 tokenizer = transformers.SqueezeBertTokenizer.from_pretrained(
@@ -49,12 +51,26 @@ class ClassifierAPI:
     def on_post(self, req, resp):
         try:
             input_sentence = req.media.get("input_sentence")
-            res = pred_sentence_emotions(self.model, input_sentence)
 
-            resp.text = json.dumps(
-                {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
-            )
-            resp.status = falcon.HTTP_200
+            detect_api = DetectionAPI()
+            detected = detect_api.detection.detect(input_sentence)
+            if detected == "en":
+                res = pred_sentence_emotions(self.model, input_sentence)
+
+                resp.text = json.dumps(
+                    {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
+                )
+                resp.status = falcon.HTTP_200
+            else:
+                translation_api = TranslationAPI()
+                translated = translation_api.translation.translate(input_sentence)
+                res = pred_sentence_emotions(self.model, translated)
+
+                resp.text = json.dumps(
+                    {"status": 200, "data": {"emotion": res}}, ensure_ascii=False
+                )
+                resp.status = falcon.HTTP_200
+                
         except Exception as e:
             print(e)
             resp.text = json.dumps(

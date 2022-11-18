@@ -3,8 +3,8 @@ import falcon
 import torch
 import transformers
 from app.classifier.models.classifier import EmotionClassifier
-from app.detection.detection import DetectionAPI
-from app.translation.translation import TranslationAPI
+from app.detection.models.detection import Detection
+from app.translation.models.translation import Translation
 from app.classifier.models.classes import mapping
 
 tokenizer = transformers.SqueezeBertTokenizer.from_pretrained(
@@ -46,8 +46,8 @@ class ClassifierAPI:
         n_labels = len(mapping)
         n_train_steps = int(43410 / 32 * 10)
         self.model = EmotionClassifier(n_train_steps, n_labels)
-        self.detection = DetectionAPI()
-        self.translation = TranslationAPI()
+        self.detection = Detection()
+        self.translation = Translation()
         self.model.load("/home/masters/nlp-diary/model.bin", device="cpu")
 
     def on_post(self, req, resp):
